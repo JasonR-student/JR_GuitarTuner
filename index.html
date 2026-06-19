@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>吉他调音器</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="control-panel" aria-label="吉他设置">
+        <div class="brand">
+          <span class="brand-mark"></span>
+          <div>
+            <h1>吉他调音器</h1>
+            <p id="statusText">等待录音</p>
+          </div>
+        </div>
+
+        <label class="field-label" for="guitarType">吉他类型</label>
+        <select id="guitarType" class="select-control">
+          <option value="acoustic">民谣吉他</option>
+          <option value="electric">电吉他</option>
+          <option value="classical">古典吉他</option>
+          <option value="seven">七弦吉他</option>
+          <option value="bass">贝斯吉他</option>
+        </select>
+
+        <label class="field-label" for="timbreType">音色类型</label>
+        <select id="timbreType" class="select-control"></select>
+
+        <label class="upload-button" for="audioInput">读取音频</label>
+        <input id="audioInput" type="file" accept="audio/*" multiple />
+
+        <div id="fileList" class="file-list" aria-live="polite"></div>
+
+        <button id="analyzeButton" class="primary-button" type="button" disabled>
+          开始测量
+        </button>
+
+        <div class="score-actions" aria-label="线谱操作">
+          <label class="secondary-button" for="scoreInput">导入线谱</label>
+          <input id="scoreInput" type="file" accept="application/json,.json" />
+          <button id="exportScoreButton" class="secondary-button" type="button" disabled>导出线谱</button>
+          <button id="playFromScoreButton" class="secondary-button" type="button" disabled>连续播放</button>
+          <button id="stopScoreButton" class="secondary-button" type="button" disabled>停止</button>
+        </div>
+
+        <div class="progress-wrap" aria-hidden="true">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </section>
+
+      <section class="stage-panel" aria-label="吉他动画">
+        <div class="guitar-viewport">
+          <div class="stage-tools" aria-label="吉他视图控制">
+            <button id="zoomOut" class="stage-tool" type="button" title="缩小" aria-label="缩小">−</button>
+            <button id="resetView" class="stage-tool" type="button" title="重置位置" aria-label="重置位置">↺</button>
+            <button id="zoomIn" class="stage-tool" type="button" title="放大" aria-label="放大">+</button>
+          </div>
+          <canvas id="guitarCanvas"></canvas>
+          <div id="stringButtons" class="string-buttons" aria-label="弦音按钮"></div>
+          <div id="resultRibbon" class="result-ribbon" aria-live="polite"></div>
+        </div>
+        <div class="staff-panel" aria-label="五线谱">
+          <div class="staff-head">
+            <span id="staffName">选择弦音</span>
+            <span id="staffMeta">-- Hz</span>
+          </div>
+          <input id="scoreSlider" class="score-slider" type="range" min="0" max="0" step="0.01" value="0" disabled />
+          <canvas id="staffCanvas"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="resultDialog" class="result-dialog">
+      <div class="dialog-top">
+        <h2>分析结果</h2>
+        <button id="closeDialog" class="icon-button" type="button" aria-label="关闭">×</button>
+      </div>
+      <pre id="resultText"></pre>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
